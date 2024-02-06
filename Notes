@@ -1,0 +1,78 @@
+**A coredump and segmentationfault are releated to program crashes and indicate issues in the execution of a program.
+
+
+SegmentationFault(segFault):
+---------------------------
+*A segmentation fault is a specific kind of error caused by accessing memory that "does not belong to you."
+*It's a mechanism that prevents the program from continuing to execute in an unsafe manner.
+*Common causes of segmentation faults include dereferencing a null or dangling pointer, accessing an array out of bounds, or trying to modify read-only memory.
+
+Eg: Deferencing NULL pointer
+
+#include<iostream>
+using namespace std;
+int main(void)
+{ 
+ char *ptr=NULL;
+ ptr++;
+ cout<<ptr;
+}
+o/p:Segmentation fault (core dumped)
+
+
+Eg:Deferencing dangling pointer
+
+#include<iostream>
+using namespace std;
+int main(void)
+{
+ int *p=new int;
+ if(p !=NULL)
+ {
+    *p=27;
+    free(p);
+ }
+ cout<<*p;
+}
+
+o/p:1456635436(undefined behaviour)
+
+
+
+Eg:modify read-only memory
+
+#include<iostream>
+using namespace std;
+int main(void)
+{  
+const int*p=new int(22);
+*p=20;
+cout<<*p; 
+}
+
+o/p: error: assignment of read-only location '* p'
+        *p=20;
+
+
+
+
+Eg:Aceesing an  array out of bounds
+
+#include<iostream>
+using namespace std;
+int main(void)
+{
+int a[]={1,2};
+cout<<a[2];
+}
+
+o/p:644997888
+
+
+
+
+NOTE:
+To enable core dumps, you might need to adjust system settings or the ulimit (user limit) command, depending on your operating system. 
+For example, in Unix-like systems, you can use the following command to enable core dumps:
+
+    ulimit -c unlimited
